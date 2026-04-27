@@ -95,6 +95,15 @@
 - **置信度**：高
 - **关联文件**：dimensions/01-reasoning.md, timeline/gen3-reasoning-era.md
 
+## 2026-04-27｜补充代际演进时间线（gen1-gen3）
+
+- **触发**：体系建设——时间索引（索引 B）的三个已确立代际文件缺失
+- **塌缩**：（不适用）
+- **涌现**：（不适用）
+- **影响层级**：（元层）
+- **置信度**：（不适用）
+- **关联文件**：timeline/gen1-prompt-era.md, timeline/gen2-tool-rag-era.md, timeline/gen3-reasoning-era.md
+
 ## 2026-04-26｜知识体系初始化
 
 - **触发**：体系本身的建立
