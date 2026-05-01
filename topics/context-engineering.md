@@ -1,6 +1,8 @@
 # Context Engineering
 
 > 锚点：层级 L1（Agent 内核）/ 与维度 2 Long Context、维度 6 Memory、维度 7 Inference-Time Compute 均有直接耦合
+>
+> 实践案例补充：[topics/context-engineering-in-practice.md](context-engineering-in-practice.md) — 以 Claude Code 为活体 agent，从第一人称视角映射本文理论框架的实际运作
 
 ## 这个概念是什么
 
@@ -117,4 +119,5 @@ Context engineering 作为独立学科已获得广泛承认。行业共识是它
 
 ## 更新日志
 
+- 2026-05-01：增加实践案例补充文件 context-engineering-in-practice.md 的交叉引用
 - 2026-04-27：初次创建。覆盖四种核心操作、压缩策略深度对比、KV-cache 优化、注意力管理、系统实践对比、关键权衡

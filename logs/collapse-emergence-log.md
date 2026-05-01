@@ -19,6 +19,15 @@
 
 ## 已记录条目（倒序，最新在前）
 
+## 2026-05-01｜Context Engineering 实践案例 topic 创建
+
+- **触发**：体系建设——将 Claude Code 作为活体 agent 案例，从第一人称视角分析 context engineering 的实际运作
+- **塌缩**：（不适用）
+- **涌现**：（不适用）
+- **影响层级**：（元层）
+- **置信度**：（不适用）
+- **关联文件**：topics/context-engineering-in-practice.md
+
 ## 2026-05-01｜L2 四个待补充章节完成
 
 - **触发**：体系建设——L2 骨架文件中 RAG 模式、Memory 工程、Agent 框架、向量数据库四个章节从创建以来一直标记为待补充
