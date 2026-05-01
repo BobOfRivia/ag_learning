@@ -159,7 +159,7 @@ LinkedIn 的 Cognitive Memory Agent（CMA）是目前公开的最有影响力的
 
 **× Inference-Time Compute（维度 7）**：记忆的检索、整合、反思都消耗推理时计算。如果 memory 走向内化，推理时计算消耗可能进一步增长。
 
-**× Instruction Following（维度 5）**：当检索到的记忆和用户当前指令矛盾时，agent 该遵循哪个？这是 instruction following 在记忆语境下的新变体。
+**× Instruction Following（维度 5）**：当检索到的记忆和用户当前指令矛盾时，agent 该遵循哪个？这是 instruction following 在记忆语境下的新变体。详见 [dimensions/05-instruction-following.md](05-instruction-following.md)
 
 ## 关键不确定性
 
@@ -213,4 +213,5 @@ LinkedIn 的 Cognitive Memory Agent（CMA）是目前公开的最有影响力的
 
 ## 更新日志
 
+- 2026-05-01：耦合章节增加维度 5 Instruction Following 交叉引用链接
 - 2026-04-27：初次创建。覆盖四类记忆分类、参数/非参数分野、记忆生命周期、五种机制家族、图记忆、记忆安全、当前技术格局（产品/框架/评测/企业）、演进路径、四层影响、六个维度耦合、五个关键不确定性

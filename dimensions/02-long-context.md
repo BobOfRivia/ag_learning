@@ -135,6 +135,7 @@ RULER benchmark 测试多跳追踪、聚合等复杂任务。历史数据显示 
 - **× Memory（维度 6）**：最常混淆的一对。长上下文能伪装记忆但不是记忆。两者的工程互动在于：context 越大，可加载的记忆越多，但成本也越高。长 context 让简单 RAG 塌缩，但不替代真正的记忆系统。
 - **× Tool Use（维度 4）**：工具描述消耗 context。MCP 生态下可用工具达到数百个时，工具描述可能占据大量空间，催生"工具检索"需求——根据当前任务动态选择相关工具子集加载。
 - **× Reasoning（维度 1）**：Reasoning model 让 RAG 进一步塌缩——模型自己决定何时再查，复杂多跳 RAG 编排被简化。但 reasoning 也加剧了 context 压力——thinking tokens 本身就消耗 context 空间。
+- **× Instruction Following（维度 5）**：Context 越长，指令和内容的混合越复杂，IF 难度越高。研究发现指令经常和冗长的知识片段争夺注意力，context 长度加剧指令遵循的失败率。详见 [dimensions/05-instruction-following.md](05-instruction-following.md)
 
 ## 关键不确定性
 
