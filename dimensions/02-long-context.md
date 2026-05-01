@@ -165,4 +165,5 @@ RULER benchmark 测试多跳追踪、聚合等复杂任务。历史数据显示 
 
 ## 更新日志
 
+- 2026-05-01：耦合章节增加维度 5 Instruction Following 交叉引用
 - 2026-05-01：初次创建。覆盖标称 vs 有效容量、Lost in the Middle、核心技术（RoPE/FlashAttention/Ring Attention/KV-cache）、技术格局、RAG 残余价值五因素框架、四层影响
