@@ -19,6 +19,21 @@
 
 ## 已记录条目（倒序，最新在前）
 
+## 2026-05-03｜Agent 产品全景归档：框架整合、定价塌缩、企业轨道成型
+
+- **触发**：生态事件（多个并发）——框架层大整合（LangChain→LangGraph、AutoGen→Microsoft Agent Framework）、coding agent 定价塌缩（Devin $500→$20）、企业轨道独立成型（Agentforce/Harvey/Glean）、M&A 波（Cognition 收购 Windsurf $250M）
+- **塌缩**：
+  - L3：LangChain 原始 chain-based 架构退出主流，被 LangGraph（graph-based）取代；AutoGen 并入 Microsoft 框架进入维护模式
+  - L1："agent 框架提供过度抽象"的模式被证伪——轻量原语（OpenAI Agents SDK 等）验证为更可靠路径
+  - 产品层：纯自主执行（Devin 1.x）和纯辅助（早期 Cursor 模式）之间的非此即彼，被混合形态（Windsurf/Cascade，后被 Cognition 整合）取代
+- **涌现**：
+  - L4：SWE-bench 从学术基准变成行业军备竞赛标尺，驱动了一轮产品优先级扭曲（"让 benchmark 好看"优先于"解决真实用户场景"）；SWE-EVO 的出现是修正信号
+  - L3：企业自动化轨道（Agentforce/Glean/Harvey）与开发者工具轨道（Cursor/Claude Code/Devin）形成两条独立格局，彼此暂时不直接竞争但都在向对方地盘延伸
+  - L4：pricing 塌缩（Devin $500→$20）使 coding agent 能力的商品化趋势明确，竞争护城河从"能力"向"用户体验 + 分发渠道"转移
+- **影响层级**：L1 + L3 + L4
+- **置信度**：高（M&A 和定价数据已确认）；中（两轨道的长期分化或收敛尚不确定）
+- **关联文件**：topics/agent-product-landscape.md, timeline/gen2-tool-rag-era.md, timeline/gen3-reasoning-era.md
+
 ## 2026-05-01｜Context Engineering 实践案例 topic 创建
 
 - **触发**：体系建设——将 Claude Code 作为活体 agent 案例，从第一人称视角分析 context engineering 的实际运作

@@ -16,40 +16,48 @@
 - [ ] **⭐⭐ RLVR 训练机制**：可验证奖励的具体形式（数学题精确匹配、代码测试通过率、形式化证明验证）、训练过程如何让模型自发学会长 CoT 和回溯、与 RLHF 的信号差异
   - 目标：能设计一个 RLVR 训练实验的奖励函数，解释为什么可验证域是 reasoning 训练的天然起点
   - 锚点：`dimensions/01-reasoning.md` 内化式 reasoning
+  - 📖 参考：[DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning](https://arxiv.org/abs/2501.12948)
 
 - [ ] **⭐⭐⭐ Process Reward Model (PRM) vs Outcome Reward Model (ORM)**：PRM 对每个推理步骤评分 vs ORM 只评估最终答案、PRM 标注成本和 Math-Shepherd 自动化方案、credit assignment 问题
   - 目标：用具体例子说明 ORM 如何强化"运气正确"的错误推理链，以及 PRM 的标注瓶颈如何被自动化缓解
   - 锚点：`dimensions/01-reasoning.md` → 与 `dimensions/07-inference-time-compute.md` beam search 关联
+  - 📖 参考：[Let's Verify Step by Step](https://arxiv.org/abs/2305.20050)（OpenAI，过程监督显著优于结果监督）· [Math-Shepherd](https://arxiv.org/abs/2312.08935)（自动化 PRM 标注方案）
 
 - [ ] **⭐⭐ Thinking Token 的训练来源**：reasoning model 的 thinking tokens 在训练中如何产生？是 SFT 阶段注入思维链数据，还是 RL 阶段自发涌现？DeepSeek-R1-Zero（纯 RL）vs R1（先蒸馏再 RL）的路径差异
   - 目标：区分"训练出来的推理"和"涌现出来的推理"，判断哪种更可靠
   - 锚点：`dimensions/01-reasoning.md` 内化式 reasoning → 姊妹项目 `llm-learning` 训练轨道
+  - 📖 参考：[DeepSeek-R1](https://arxiv.org/abs/2501.12948)（R1-Zero 和 R1 路径对比见第 3-4 节）
 
 - [ ] **⭐⭐ 忠实 CoT vs 不忠实 CoT**：模型展示的思考过程是否真的反映内部计算？Anthropic 的证据（Lanham et al., 2023）、Turpin et al. 的 biased CoT 实验、对安全性和可解释性的影响
   - 目标：能评估 "thinking trace 可见 = 推理透明" 这个假设在多大程度上成立
   - 锚点：`dimensions/01-reasoning.md` 关键不确定性
+  - 📖 参考：[Measuring Faithfulness in Chain-of-Thought Reasoning](https://arxiv.org/abs/2307.13702)（Lanham et al.）· [Language Models Don't Always Say What They Think](https://arxiv.org/abs/2305.04388)（Turpin et al.，偏置导致 CoT 误导）
 
 - [ ] **⭐⭐ CoT 对 Reasoning Model 的干扰机制**：为什么对 reasoning model 写 "step by step" 反而有害？模型内部推理节奏被外部 prompt 干扰的具体表现
   - 目标：给出实际的 prompt 设计建议——什么时候该用 CoT prompt，什么时候应该移除
   - 锚点：`dimensions/01-reasoning.md` → `layers/L1-agent-core.md` 塌缩
+  - 📖 参考：[Building Effective Agents](https://www.anthropic.com/research/building-effective-agents)（包含 reasoning model 的 prompt 设计建议）
 
 ### 维度 2：Long Context
 
 - [ ] **⭐⭐⭐ Lost in the Middle 的注意力机制根源**：RoPE 的距离衰减效应如何导致中部 token 获得更少的注意力权重、位置编码和 attention score 的数学关系
   - 目标：从 RoPE 的旋转矩阵出发，推导为什么序列中部的 token 比首尾更容易被忽略
   - 锚点：`dimensions/02-long-context.md` Lost in the Middle → 姊妹项目 `llm-learning` RoPE 章节
+  - 📖 参考：[Lost in the Middle: How Language Models Use Long Contexts](https://arxiv.org/abs/2307.03172) · [RoFormer: Enhanced Transformer with Rotary Position Embedding](https://arxiv.org/abs/2104.09864)（RoPE 原始论文）
 
 - [ ] **⭐⭐ 标称容量 vs 有效容量的量化方法**：NIAH（Needle-in-a-Haystack）测试的局限、RULER 的多维评测设计（多跳追踪、聚合）、NoLiMa 去除表面匹配后暴露的真实水位
   - 目标：能解释为什么 NIAH 不够用，设计一个更接近真实场景的 context 评测方案
   - 锚点：`dimensions/02-long-context.md` 有效容量
+  - 📖 参考：[NIAH](https://github.com/gkamradt/LLMTest_NeedleInAHaystack) · [RULER](https://arxiv.org/abs/2404.06654)（超越大海捞针的综合评测）· [NoLiMa](https://arxiv.org/abs/2502.05167)（ICML 2025，13 个主流模型在 32K 时性能下降 50%+）
 
-- [ ] **⭐⭐ Context Rot 的退化曲线**：性能在约 30K token 后加速退化的实证数据、退化的原因（注意力稀释 vs 位置编码漂移 vs 工作记忆瓶颈）、这个拐点是否可以通过训练推后
+- [ ] **⭐⭐ Context Rot 的退化曲线**：性能在约 30K token 后加速退化的实证数据（经验观察，来源待考）、退化的原因（注意力稀释 vs 位置编码漂移 vs 工作记忆瓶颈）、这个拐点是否可以通过训练推后
   - 目标：量化理解 context 长度与性能的关系曲线，用于指导生产中的 context budget 分配
   - 锚点：`dimensions/02-long-context.md` 关键不确定性
 
 - [ ] **⭐⭐⭐ Test-Time Training (TTT)**：在推理时对模型做轻量微调以适应长 context 的机制、如何实现与 context 长度无关的常数推理延迟、TTT-E2E 在 2M context 上 35 倍加速的来源
   - 目标：理解 TTT 为什么能突破 transformer 的二次方注意力瓶颈，以及它离生产部署还有多远
   - 锚点：`dimensions/02-long-context.md` 核心技术
+  - 📖 参考：[End-to-End Test-Time Training for Long Context](https://arxiv.org/abs/2512.23675)
 
 - [ ] **⭐⭐ RAG 残余价值的五因素决策框架**：语料规模、相关比例、延迟 SLO、更新频率、查询量——每个因素的阈值和权衡逻辑
   - 目标：面对一个具体的检索场景，能用这个框架做出 RAG vs 长 context 的定量决策
@@ -78,10 +86,12 @@
 - [ ] **⭐⭐ 函数调用的训练方法演进**：ToolFormer 的加权交叉熵筛选机制（只保留让模型后续预测更准的调用样本）、Llama 系列的代码抽取+清洗方法、ToolACE 的自演进合成管线
   - 目标：理解为什么"代码预训练是 tool use 的基础"，以及合成数据如何扩展工具调用的训练多样性
   - 锚点：`dimensions/04-tool-use.md` 训练侧
+  - 📖 参考：[Toolformer: Language Models Can Teach Themselves to Use Tools](https://arxiv.org/abs/2302.04761)
 
 - [ ] **⭐⭐⭐ 受限解码（Constrained Decoding）**：在 token 生成时动态约束概率分布以保证 JSON schema 合规的算法、Strict Mode 100% 合规的实现原理、对生成质量的影响
   - 目标：从 token 生成层面解释为什么 strict mode 是精确保证而非概率性改善
   - 锚点：`dimensions/04-tool-use.md` 推理侧 → `dimensions/05-instruction-following.md` 结构化输出
+  - 📖 参考：[Outlines](https://dottxt-ai.github.io/outlines/latest/)（开源受限解码库，JSON Schema / 正则表达式约束生成）
 
 - [ ] **⭐⭐ Three Ws 框架**：Whether（是否需要调工具）/ Which（选哪个）/ How（用什么参数），为什么 Whether 的 false positive 比选错工具更危险、Tool Call Hallucination 的检测方法
   - 目标：为一个 agent 系统设计 tool call hallucination 的检测和防护机制
@@ -89,11 +99,13 @@
 
 - [ ] **⭐⭐ LLMCompiler 并行调用优化**：运行时自动识别独立工具调用并融合同类操作的机制、4 倍并行度提升 + 40% token 消耗降低的来源
   - 目标：理解编译器思想如何应用于工具调用调度优化
-  - 锚点：`dimensions/04-tool-use.md` 并行函数调用 → arXiv 2312.04511
+  - 锚点：`dimensions/04-tool-use.md` 并行函数调用
+  - 📖 参考：[An LLM Compiler for Parallel Function Calling](https://arxiv.org/abs/2312.04511)
 
 - [ ] **⭐⭐ MCP 协议架构**：Server 暴露的三种原语（tools / resources / prompts）、传输层设计（stdio 本地进程 → Streamable HTTP 远程服务）、有状态 session 与负载均衡的冲突
   - 目标：能设计一个 MCP server 并理解远程部署的工程挑战
   - 锚点：`dimensions/04-tool-use.md` MCP → `layers/L2-world-interface.md` MCP
+  - 📖 参考：[MCP 官方规范](https://modelcontextprotocol.io/specification/2025-11-25)
 
 - [ ] **⭐ MCP vs A2A 的互补关系**：纵向（agent→tool）vs 横向（agent→agent）的标准化分野、Agent Card 的加密签名和域验证、Task 作为协作基本单位的设计
   - 目标：画出一个完整的 agent 互操作协议栈，说明 MCP 和 A2A 各自覆盖哪一层
@@ -101,7 +113,7 @@
 
 ### 维度 5：Instruction Following
 
-- [ ] **⭐⭐ Instruction Gap 的量化**：13 个模型的四种违规类型分布（内容范围 / 格式 / 语气 / 流程）、为什么 reasoning model 不一定更好（DeepSeek-R1 1,061 违规 vs GPT-5 660 违规）
+- [ ] **⭐⭐ Instruction Gap 的量化**：13 个模型的四种违规类型分布（内容范围 / 格式 / 语气 / 流程）、为什么 reasoning model 不一定更好（DeepSeek-R1 1,061 违规 vs GPT-5 660 违规）（来源待考，建议找到原始报告再引用）
   - 目标：解释 reasoning model "想偏"导致偏离指令的机制，以及为什么"更聪明"不等于"更听话"
   - 锚点：`dimensions/05-instruction-following.md` The Instruction Gap
 
@@ -113,13 +125,20 @@
   - 目标：评估指令层级作为 prompt injection 防御的可靠性上限，以及为什么"模型能理解优先级但不能稳定执行"
   - 锚点：`dimensions/05-instruction-following.md` 指令层级 → `layers/L4-production.md` 安全
 
-- [ ] **⭐⭐ 后训练模块化栈**：SFT → 偏好优化（DPO/SimPO/KTO/ORPO）→ 强化学习（GRPO/DAPO/RLVR）三阶段各自解决什么问题、DPO vs PPO 的等价性条件和偏离场景
+- [ ] **⭐⭐ 后训练模块化栈——偏好优化算法**：SFT 之后的偏好学习层：DPO（隐式奖励模型，分类损失）/ SimPO（参考模型无关）/ KTO（单样本非成对）/ ORPO（在线偏好优化）——各自的数据需求、计算成本和适用场景、DPO vs PPO 的等价性条件和偏离场景
   - 目标：能解释为什么 DPO 在大多数场景下足够好，以及什么场景仍然需要 PPO
   - 锚点：`dimensions/05-instruction-following.md` 训练方法 → 姊妹项目 `llm-learning` 对齐轨道
+  - 📖 参考：[Direct Preference Optimization: Your Language Model is Secretly a Reward Model](https://arxiv.org/abs/2305.18290)
+
+- [ ] **⭐⭐ 后训练模块化栈——强化学习阶段**：偏好学习之后的 RL 层：GRPO（组相对策略优化，DeepSeek 提出）/ DAPO（解耦优化）/ RLVR（可验证奖励）——与纯偏好优化的本质区别（有无环境反馈）、适用场景（需要长 CoT 和回溯时必须用 RL）
+  - 目标：理解"偏好优化让模型更听话，RL 让模型学会推理"这一核心分工，判断何时两者都需要
+  - 锚点：`dimensions/05-instruction-following.md` 训练方法 → `dimensions/01-reasoning.md` RLVR
+  - 📖 参考：[DeepSeek-R1](https://arxiv.org/abs/2501.12948)（GRPO 和 RLVR 的具体实现见附录）
 
 - [ ] **⭐⭐ 合成自博弈改变数据经济学**：SPIN（区分自身输出和人类文本）、SPICE（文档基础上自博弈防幻觉）、RLAIF 匹配或超过 RLHF 的条件
   - 目标：理解合成数据在后训练中的边界——什么时候可以替代人工标注，什么时候不行
   - 锚点：`dimensions/05-instruction-following.md` 合成自博弈
+  - 📖 参考：[Self-Play Fine-Tuning Converts Weak Language Models to Strong Language Models (SPIN)](https://arxiv.org/abs/2401.01335)
 
 ### 维度 6：Memory
 
@@ -130,36 +149,44 @@
 - [ ] **⭐⭐⭐ MemGPT/Letta 的 OS 式三层架构**：core memory（RAM，始终在 context）/ recall memory（对话历史，可搜索）/ archival memory（磁盘，长期存储）的换入换出机制、agent 通过 function call 自主管理记忆的设计
   - 目标：理解"agent 主动管理自己的记忆"和"系统被动注入记忆"的本质区别，以及各自的失败模式
   - 锚点：`dimensions/06-memory.md` → `layers/L2-world-interface.md` Memory 工程 → `topics/memory-architecture.md`
+  - 📖 参考：[MemGPT: Towards LLMs as Operating Systems](https://arxiv.org/abs/2310.08560)
 
 - [ ] **⭐⭐ 参数记忆 vs 非参数记忆**：ROME/MEMIT 的知识编辑精确性问题（改一个事实可能破坏相关知识）、非参数路线的检索瓶颈（存什么都行但能不能找到对的东西）
   - 目标：判断参数记忆路线在什么条件下可能变得可行，目前的技术瓶颈是什么
   - 锚点：`dimensions/06-memory.md` 表示基底
+  - 📖 参考：[Locating and Editing Factual Associations in GPT (ROME)](https://arxiv.org/abs/2202.05262) · [Mass-Editing Memory in a Transformer (MEMIT)](https://arxiv.org/abs/2210.07229)
 
 - [ ] **⭐⭐ 图记忆 vs 向量记忆**：向量记忆的"无结构相似性匹配"局限（问"Alice 的经理是谁"可能找不到答案）、图记忆通过实体-关系显式建模支持多跳和时序推理、Graphiti 在 Neo4j 上的实现
   - 目标：给出一个决策框架——什么场景用向量记忆，什么场景必须用图记忆
   - 锚点：`dimensions/06-memory.md` 图记忆 → `layers/L2-world-interface.md` 向量数据库
+  - 📖 参考：[Graphiti（Zep，基于 Neo4j 的时间感知图记忆）](https://github.com/getzep/graphiti)
 
 - [ ] **⭐⭐ 被动回忆 vs 主动运用的鸿沟**：MemoryArena benchmark 显示从 LoCoMo 80%+ 骤降至 40-60% 的数据、"能想起来"和"在对的时刻用对的记忆"的差距根源
   - 目标：分析这个鸿沟需要 reasoning 和 memory 的哪种融合才能弥合
   - 锚点：`dimensions/06-memory.md` 评测层
+  - 📖 参考：[MemoryArena: Benchmarking Agent Memory in Interdependent Multi-Session Agentic Tasks](https://arxiv.org/abs/2602.16313)
 
 - [ ] **⭐⭐ 记忆安全的六阶段威胁模型**：Write（注入有毒记忆）→ Store → Retrieve（操纵检索结果）→ Execute → Share（跨 agent 传播污染）→ Forget、MemoryGraft 和 InjecMEM 攻击的具体机制
   - 目标：评估当前记忆框架（Mem0、Letta、Zep）的安全缺口，理解"没有生产系统实现综合记忆安全"意味着什么风险
   - 锚点：`dimensions/06-memory.md` 记忆安全 → `topics/memory-security.md`
+  - 📖 参考：[Mem0 Technical Report](https://arxiv.org/abs/2504.19413)（含记忆安全评估）
 
 ### 维度 7：Inference-Time Compute
 
 - [ ] **⭐⭐⭐ 训练时-推理时计算的兑换比率**：Epoch AI 分析——一般性方法每增加 1-2 OOM 推理计算换 1 OOM 训练节省、可验证问题 5-6 OOM 换 3-4 OOM、组合使用时边际收益递减的原因
   - 目标：能为一个具体场景（如数学推理 vs 通用对话）计算训练时和推理时计算的最优分配
   - 锚点：`dimensions/07-inference-time-compute.md` 两种 scaling 的博弈
+  - 📖 参考：[Epoch AI — Inference Economics of Language Models](https://epoch.ai/blog/inference-economics-of-language-models)
 
 - [ ] **⭐⭐⭐ T² Scaling Law**：同时优化模型大小、训练数据量和推理时采样次数的统一框架、为什么纳入推理成本后最优策略偏向过度训练（overtrain）
   - 目标：理解 T² 对传统 Chinchilla scaling law 的修正方向和幅度
   - 锚点：`dimensions/07-inference-time-compute.md` 两种 scaling 的博弈
+  - 📖 参考：[Test-Time Scaling Makes Overtraining Compute-Optimal](https://arxiv.org/abs/2604.01411)
 
-- [ ] **⭐⭐ 两大策略族的边界条件**：搜索与采样（Best-of-N / Beam Search / MCTS）vs 内化式推理（thinking tokens），各自的适用条件、"The Art of Scaling Test-Time Compute" 的核心结论——没有单一策略在所有场景下占优
+- [ ] **⭐⭐ 两大策略族的边界条件**：搜索与采样（Best-of-N / Beam Search / MCTS）vs 内化式推理（thinking tokens），各自的适用条件、核心结论——没有单一策略在所有场景下占优（注：文中"The Art of Scaling Test-Time Compute"标题未找到精确匹配来源，以下论文最接近）
   - 目标：给出一个任务类型 × 计算预算的策略选择矩阵
   - 锚点：`dimensions/07-inference-time-compute.md` 两大策略族
+  - 📖 参考：[Scaling LLM Test-Time Compute Optimally can be More Effective than Scaling Model Parameters](https://arxiv.org/abs/2408.03314)
 
 - [ ] **⭐⭐ Effort 参数的跨厂商对比**：Anthropic effort（low/medium/high/max/xhigh）vs OpenAI reasoning_effort vs Google thinkingBudget 的设计差异、Claude Opus medium ≈ Sonnet high 但输出 token 减少 76% 的含义
   - 目标：建立 effort 参数的心智模型——它不只是成本旋钮，也是模型选型的替代维度
@@ -168,10 +195,16 @@
 - [ ] **⭐⭐ LLM 推理成本悖论**：每 token 价格每年降 10 倍（Epoch AI 数据），但 reasoning model 的每请求总 token 消耗同步增长，导致单次请求总成本不一定下降
   - 目标：能用数据论证这个悖论在多长时间内会被解决（或者不会被解决）
   - 锚点：`dimensions/07-inference-time-compute.md` 成本悖论
+  - 📖 参考：[Epoch AI — Inference Economics of Language Models](https://epoch.ai/blog/inference-economics-of-language-models)
 
-- [ ] **⭐⭐⭐ ARES 自适应 Effort 路由**：训练轻量路由器在 agent 每一步动态决定 effort 级别的 RL 方法、将 high effort 使用比例从 50%+ 降到 20% 以下的机制
+- [ ] **⭐⭐⭐ ARES 自适应 Effort 路由**：训练轻量路由器在 agent 每一步动态决定 effort 级别的 RL 方法、将推理 token 消耗降低约 52%（注：论文原始指标为 token 消耗量，而非"high effort 使用比例"，以论文数据为准）
   - 目标：理解为什么"大量步骤被过度分配了推理算力"，以及自动路由的延迟和复杂度代价
   - 锚点：`dimensions/07-inference-time-compute.md` 两层路由
+  - 📖 参考：[ARES: Adaptive Reasoning Effort Selection for Efficient LLM Agents](https://arxiv.org/abs/2603.07915)
+
+- [ ] **⭐⭐ Speculative Decoding**：小模型（draft model）并行生成候选 token 序列、大模型（verifier）一次性并行验证并接受/拒绝、接受率（acceptance rate）对实际加速比的决定性影响——接受率 α 时理论加速比约为 1/(1−α)；Anthropic、Google 等主要推理提供商已在生产中部署
+  - 目标：理解加速来源不是减少浮点计算，而是把串行 token 生成变成并行验证，从而充分利用 GPU 批处理能力；以及 draft model 选型（同系列小模型 vs 自回归草稿头）对加速效果的影响
+  - 锚点：`dimensions/07-inference-time-compute.md` 推理延迟优化
 
 ---
 
@@ -182,6 +215,7 @@
 - [ ] **⭐ 三种循环模式的架构差异**：经典 ReAct（Thought→Action→Observation 紧密交错）vs 双相位（先集中想再集中做）vs 最小 loop（while tool_call → execute → append），它们之间的关系（不是替代而是共存）
   - 目标：用伪代码写出三种循环的核心实现，解释各自的设计权衡
   - 锚点：`layers/L1-agent-core.md` Agent Loop
+  - 📖 参考：[Building Effective Agents](https://www.anthropic.com/research/building-effective-agents)
 
 - [ ] **⭐⭐ Agent 循环终止策略**：自然终止（模型不再调用工具）的不可靠性、步数/token/成本/超时多重上限的设计、失控循环（最常见的生产故障模式）的检测
   - 目标：为一个生产 agent 设计完整的终止条件集合，包含优先级排序
@@ -196,10 +230,12 @@
 - [ ] **⭐⭐⭐ KV-Cache 命中率优化**：为什么 KV-cache 命中率是 agent 系统最重要的单一性能指标（缓存 vs 未缓存 10 倍成本差）、保持 system prompt 前缀稳定、只追加不修改、JSON 序列化确定性
   - 目标：列出所有可能导致 KV-cache 失效的场景，并给出对应的防护措施
   - 锚点：`layers/L1-agent-core.md` KV-cache 优化 → `topics/context-engineering.md`
+  - 📖 参考：[Prompt Caching（Anthropic 官方文档）](https://platform.claude.com/docs/en/build-with-claude/prompt-caching)
 
 - [ ] **⭐⭐ Context Engineering 四操作框架**：Write（持久化）/ Select（检索）/ Compress（压缩）/ Isolate（子 agent 隔离）——每个操作的具体技术手段和适用时机
   - 目标：对一个长时间运行的 agent 任务，设计一套完整的 context engineering 方案
   - 锚点：`topics/context-engineering.md`
+  - 📖 参考：[Effective Context Engineering for AI Agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)（Anthropic 工程博客）
 
 - [ ] **⭐⭐ 压缩策略对比**：锚定式迭代摘要（4.04/5 准确度）vs 观察遮蔽（52% 成本减少）vs Provider 原生压缩（Anthropic compact / Google ADK compaction）——各自的信息损失特征
   - 目标：理解"摘要漂移"（多次压缩后罕见但关键细节丢失）的机制，以及如何最小化信息损失
@@ -218,10 +254,12 @@
 - [ ] **⭐⭐ Anthropic 的六种可组合构建块**：Prompt Chaining / Routing / Parallelization / Orchestrator-Workers / Evaluator-Optimizer / 自主 Agent——各自的适用条件、在 reasoning model 时代的价值变化
   - 目标：面对一个具体任务，能选择最合适的编排模式组合并论证选择
   - 锚点：`layers/L1-agent-core.md` 编排模式谱系
+  - 📖 参考：[Building Effective Agents](https://www.anthropic.com/research/building-effective-agents)
 
 - [ ] **⭐⭐ Workflow vs Agent 的核心区分**：workflow（预定义代码路径）用可预测性换灵活性 vs agent（LLM 动态控制）用灵活性换可预测性、何时选择哪种
   - 目标：给出一个决策树——基于任务的确定性程度和容错要求选择 workflow 或 agent
   - 锚点：`layers/L1-agent-core.md` 编排模式
+  - 📖 参考：[Building Effective Agents](https://www.anthropic.com/research/building-effective-agents)
 
 - [ ] **⭐⭐ Plan-then-Execute vs ReAct 的混合实践**：Plan 提供结构 + ReAct 提供适应性的组合、Claude Code 的 TodoWrite 机制、3.6 倍速度优势的条件
   - 目标：理解什么任务适合 plan-first，什么任务适合 react-first，以及混合的最优比例
@@ -240,6 +278,7 @@
 - [ ] **⭐⭐ 混合检索（BM25 + 向量 + RRF 融合）**：BM25 的关键词匹配机制、向量搜索的语义匹配机制、Reciprocal Rank Fusion 的融合排序算法、为什么混合方案一致优于单一方法（91% vs 78% vs 65%）
   - 目标：从算法层面理解 RRF 如何组合两种不同信号，以及阈值调优的方法
   - 锚点：`layers/L2-world-interface.md` RAG 关键生产模式
+  - 📖 参考：[Reciprocal Rank Fusion outperforms Condorcet and Individual Rank Learning Methods](https://dl.acm.org/doi/10.1145/1571941.1572114)（SIGIR 2009，RRF 原始论文）
 
 - [ ] **⭐⭐ 交叉编码器重排序**：初始 top-20/50 → 精排的架构、交叉编码器比双编码器更精确的原因（token 级交互 vs 独立编码后匹配）、延迟和精度的权衡
   - 目标：理解为什么重排序是第二高投入产出比的 RAG 改进
@@ -258,10 +297,12 @@
 - [ ] **⭐⭐ 向量数据库商品化趋势**：pgvector 在 50M 向量以下性价比碾压专用数据库（471 QPS vs Qdrant 41 QPS）、Pinecone 收入从 $26.6M 降到 $14M 的前哨信号、"向量从数据库品类变成数据类型"
   - 目标：判断什么场景仍需要专用向量数据库，什么场景 pgvector 足够
   - 锚点：`layers/L2-world-interface.md` 向量数据库
+  - 📖 参考：[pgvector vs Qdrant 性能对比](https://www.tigerdata.com/blog/pgvector-vs-qdrant)
 
 - [ ] **⭐⭐ GraphRAG 架构**：知识图谱如何解决基于块检索无法处理的多跳问题、Neo4j HNSW 向量索引 + Cypher 图遍历的组合、索引成本比纯向量 RAG 高 10-40 倍的代价
   - 目标：给出 GraphRAG 的适用条件——什么类型的数据和查询模式值得 10-40 倍的索引成本
   - 锚点：`layers/L2-world-interface.md` 图+向量融合
+  - 📖 参考：[From Local to Global: A Graph RAG Approach to Query-Focused Summarization](https://arxiv.org/abs/2404.16130)（微软，GraphRAG 原始论文）
 
 - [ ] **⭐ Embedding 模型选型**：闭源（OpenAI text-embedding-3-large / Cohere embed-v4.0 / Gemini Embedding 2）vs 开源（Qwen3-Embedding-8B / BGE-M3）的成本和质量权衡、月处理量超过 1 亿 token 时自托管的经济性
   - 目标：建立 embedding 模型选型的决策矩阵（语言覆盖、维度、成本、部署方式）
@@ -272,10 +313,16 @@
 - [ ] **⭐⭐ 被动注入 vs 主动管理两种范式**：系统在外部检索注入 context（ChatGPT Memory）vs agent 自己调用 memory function 决定读写（Letta），各自的失败模式和适用场景
   - 目标：为一个新的 agent 项目选择记忆集成范式，论证选择
   - 锚点：`layers/L2-world-interface.md` Memory 工程 → `dimensions/06-memory.md`
+  - 📖 参考：[MemGPT: Towards LLMs as Operating Systems](https://arxiv.org/abs/2310.08560)（主动管理范式的设计原型）
 
 - [ ] **⭐⭐ Mem0 的选择性提取机制**：用 LLM 判断对话中什么值得记住（而非记录一切）的实现、准确率-延迟-token 消耗的三角权衡（72.9%/17s/26K vs 68.4%/2.59s/1.8K）
   - 目标：理解"4.5% 准确率差距换 6.5 倍延迟改善和 14.4 倍 token 节省"在什么条件下值得
   - 锚点：`layers/L2-world-interface.md` Memory 工程 → `dimensions/06-memory.md` 检索阶段
+  - 📖 参考：[Mem0 Technical Report](https://arxiv.org/abs/2504.19413)
+
+- [ ] **⭐⭐ 大规模工具集下的工具检索**：当 agent 有 50-200 个可用工具时，把工具选择问题转化为检索问题（tool RAG）——embedding 工具描述 + 语义检索候选集 + 精排的三阶段架构、工具描述质量对检索效果的决定性影响、为什么把所有工具放进 context 不可行（token 消耗 + 注意力稀释双重代价）
+  - 目标：理解工具检索和文档检索的本质区别（工具是行动描述不是答案内容），以及工具描述的撰写规范如何直接影响检索召回率
+  - 锚点：`dimensions/04-tool-use.md` → `layers/L1-agent-core.md` → `layers/L2-world-interface.md` RAG
 
 ---
 
@@ -314,8 +361,9 @@
 - [ ] **⭐⭐ LLM-as-judge 的三种系统性偏差**：位置偏差、长度偏差、迎合偏差的具体表现、复杂任务错误率超 50% 的数据、缓解策略（随机化顺序 + 多次一致性检验 + 显式评分标准）
   - 目标：设计一个减轻偏差的 LLM-as-judge 流程，目标 Spearman 相关系数 > 0.80
   - 锚点：`layers/L4-production.md` LLM-as-judge
+  - 📖 参考：[Judging the Judges: A Systematic Study of Position Bias in LLM-as-a-Judge](https://arxiv.org/abs/2406.07791)
 
-- [ ] **⭐⭐ Benchmark 到生产的 37% 鸿沟**：实验室得分和真实部署表现差距的来源、单次 60% 成功率但八次重复后降至 25% 的可靠性衰减
+- [ ] **⭐⭐ Benchmark 到生产的鸿沟**：实验室得分和真实部署表现差距的来源（来源待考）、单次 60% 成功率但八次重复后降至 25% 的可靠性衰减
   - 目标：解释这个鸿沟的根源（分布差异、边界情况、复合错误），以及如何在上线前检测
   - 锚点：`layers/L4-production.md` benchmark 鸿沟
 
@@ -342,6 +390,7 @@
 - [ ] **⭐⭐ Prompt Caching 实践**：缓存 token 成本约为非缓存的 10%、延迟降低 75-85%、保持前缀稳定的具体做法（不放时间戳、只追加不修改、序列化确定性）
   - 目标：在一个真实的 agent 系统中实现 prompt caching，测量成本和延迟的改善
   - 锚点：`layers/L4-production.md` Prompt Caching → `topics/context-engineering.md` KV-Cache
+  - 📖 参考：[Prompt Caching（Anthropic 官方文档）](https://platform.claude.com/docs/en/build-with-claude/prompt-caching)
 
 - [ ] **⭐⭐ Model Routing 的 87% 成本节省**：90% 的查询可由小模型处理的假设验证、路由准确率对总成本的影响曲线、手工规则 vs 失败信号升级 vs 自动路由三种实现路线
   - 目标：设计一个渐进式 model routing 方案——从手工规则起步，逐步过渡到自动路由
@@ -360,14 +409,17 @@
 - [ ] **⭐⭐⭐ 间接 Prompt Injection 攻击机制**：攻击者在 agent 数据源（邮件/文档/网页）中嵌入恶意指令、EchoLeak（Microsoft 365 Copilot 零交互漏洞，80% 成功率）和 GeminiJack 的具体技术路径
   - 目标：能复现一个间接 prompt injection 的 PoC，理解为什么"模型无法可靠区分指令和数据"是根本难点
   - 锚点：`layers/L4-production.md` 安全 → `dimensions/05-instruction-following.md` 指令层级
+  - 📖 参考：[EchoLeak: The First Real-World Zero-Click Prompt Injection Exploit in a Production LLM System](https://arxiv.org/abs/2509.10540)（CVE-2025-32711）
 
 - [ ] **⭐⭐ Simon Willison 的"致命三角"**：（1）私有数据访问 +（2）不可信输入暴露 +（3）外发请求能力 = 可被利用、为什么大多数有生产价值的 agent 天然满足这三个条件
   - 目标：评估一个真实 agent 系统是否落入致命三角，以及如何在不放弃功能的前提下缓解
   - 锚点：`layers/L4-production.md` 安全
+  - 📖 参考：[The lethal trifecta for AI agents](https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/)
 
 - [ ] **⭐⭐ OWASP Top 10 for Agentic Applications**：十大风险各自的攻击面和缓解策略、与传统 LLM Top 10 的区别（agent 特有：自主行动能力带来的额外风险）
   - 目标：能对一个 agent 系统做安全审计，识别它面临的 top 3 风险并设计缓解措施
   - 锚点：`layers/L4-production.md` OWASP Agentic Top 10
+  - 📖 参考：[OWASP Top 10 for Agentic Applications 2026](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/) · [OWASP Top 10 for LLMs](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
 
 - [ ] **⭐⭐ 纵深防御架构**：输入筛查 + 对话控制 + 输出验证的三层防御、12 种 prompt injection 防御被攻破率超 90% 的学术评估数据、guardrail 平台（Straiker / Lakera / Promptfoo）的定位
   - 目标：理解为什么"所有防御都是缓解而非根治"，以及在这个限制下的最优防御组合
