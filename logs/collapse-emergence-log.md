@@ -19,6 +19,15 @@
 
 ## 已记录条目（倒序，最新在前）
 
+## 2026-05-04｜L1 编排模式谱系补充：控制权归属框架与选型信号
+
+- **触发**：体系建设——补充 workflow vs agent 选型的「信任边界」视角和实践选型信号
+- **塌缩**：（不适用）
+- **涌现**：（不适用）
+- **影响层级**：（元层）
+- **置信度**：（不适用）
+- **关联文件**：layers/L1-agent-core.md
+
 ## 2026-05-03｜Agent 产品全景归档：框架整合、定价塌缩、企业轨道成型
 
 - **触发**：生态事件（多个并发）——框架层大整合（LangChain→LangGraph、AutoGen→Microsoft Agent Framework）、coding agent 定价塌缩（Devin $500→$20）、企业轨道独立成型（Agentforce/Harvey/Glean）、M&A 波（Cognition 收购 Windsurf $250M）
