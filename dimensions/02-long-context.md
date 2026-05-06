@@ -108,7 +108,7 @@ RULER benchmark 测试多跳追踪、聚合等复杂任务。历史数据显示 
 - 简单 RAG pipeline 大面积塌缩。"检索-拼接-回答"的基本 RAG 流程在很多场景下可以直接用长 context 替代——把文档全部塞进 context，让模型自己找
 - RAG 中间环节（query rewriting、re-ranking）被 reasoning model + 长 context 的组合吸收
 
-**残余 RAG 价值——五因素判断框架**：RAG 在以下条件下仍不可替代：（1）语料超出 context 容量——数百万文档级别的知识库物理上塞不进 1M 窗口；（2）相关比例低——当不到 20% 的数据与查询相关时，RAG 的精准检索优于全量塞入的注意力稀释；（3）延迟 SLO 严格——1M token 请求延迟 30-60 秒，RAG pipeline 约 1 秒，对实时交互场景差距决定性；（4）数据高频更新——文档持续变化时，每次全量塞入成本不可接受；（5）查询量大——高并发场景下长 context 的 1250 倍每查询成本无法承受。满足任一条件时 RAG 仍是正确选择。
+**残余 RAG 价值——五因素判断框架**：RAG 在以下条件下仍不可替代：（1）语料超出 context 容量——数百万文档级别的知识库物理上塞不进 1M 窗口；（2）相关比例低——当不到 20% 的数据与查询相关时，RAG 的精准检索优于全量塞入的注意力稀释；（3）延迟 SLO 严格——1M token 请求延迟 30-60 秒，RAG pipeline 约 1 秒，对实时交互场景差距决定性；（4）数据高频更新——文档持续变化时，每次全量塞入成本不可接受；（5）查询量大——高并发场景下长 context 的 1250 倍每查询成本无法承受。满足任一条件时 RAG 仍是正确选择。这个框架回答"该不该做 RAG"；如果决策结果是该做，下一个问题是"做哪一层 RAG"——四个成熟度层级（Naive / Advanced / Modular / Agentic / Adaptive）的内部机制和落地程度判断详见 [topics/advanced-rag-variants.md](../topics/advanced-rag-variants.md)。
 
 **涌现**：
 - 混合架构成为生产默认——RAG 做精准检索，长 context 做全局推理，根据查询路由选择
@@ -165,5 +165,6 @@ RULER benchmark 测试多跳追踪、聚合等复杂任务。历史数据显示 
 
 ## 更新日志
 
+- 2026-05-05：在"残余 RAG 价值"段末尾加反向链接指向 topics/advanced-rag-variants.md，把"该不该做 RAG"（本文件）和"做哪一层 RAG"（topic）两个正交决策串起来
 - 2026-05-01：耦合章节增加维度 5 Instruction Following 交叉引用
 - 2026-05-01：初次创建。覆盖标称 vs 有效容量、Lost in the Middle、核心技术（RoPE/FlashAttention/Ring Attention/KV-cache）、技术格局、RAG 残余价值五因素框架、四层影响
