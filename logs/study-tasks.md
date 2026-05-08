@@ -410,6 +410,7 @@
   - 目标：能复现一个间接 prompt injection 的 PoC，理解为什么"模型无法可靠区分指令和数据"是根本难点
   - 锚点：`layers/L4-production.md` 安全 → `dimensions/05-instruction-following.md` 指令层级
   - 📖 参考：[EchoLeak: The First Real-World Zero-Click Prompt Injection Exploit in a Production LLM System](https://arxiv.org/abs/2509.10540)（CVE-2025-32711）
+  - 模拟：[间接 Prompt Injection的模拟](https://claude.ai/share/8d91efa6-f2c5-42c0-bac3-8146c3cbe286)
 
 - [ ] **⭐⭐ Simon Willison 的"致命三角"**：（1）私有数据访问 +（2）不可信输入暴露 +（3）外发请求能力 = 可被利用、为什么大多数有生产价值的 agent 天然满足这三个条件
   - 目标：评估一个真实 agent 系统是否落入致命三角，以及如何在不放弃功能的前提下缓解
