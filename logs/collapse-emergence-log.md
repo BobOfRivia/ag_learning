@@ -19,6 +19,15 @@
 
 ## 已记录条目（倒序，最新在前）
 
+## 2026-05-08｜维度 6 Memory 补充"与 Context Engineering 的关系"章节
+
+- **触发**：体系建设——L2 自诊断中暴露 memory 与 context engineering 概念混淆，dimensions/06-memory.md 已有"与 Long Context 的区分"但缺"与 Context Engineering 的区分"
+- **塌缩**：（不适用）
+- **涌现**：（不适用，但记录了一个**演化中的争议**）——长上下文 + 持久 KV cache 是否会让 memory engineering 的部分工作塌缩回 context engineering，这直接关系 gen4 假设（memory 内化）的边界。当前无结论，置信度中。
+- **影响层级**：（元层 + L2 概念边界澄清）
+- **置信度**：（不适用）
+- **关联文件**：dimensions/06-memory.md
+
 ## 2026-05-04｜L1 编排模式谱系补充：控制权归属框架与选型信号
 
 - **触发**：体系建设——补充 workflow vs agent 选型的「信任边界」视角和实践选型信号

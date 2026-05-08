@@ -12,6 +12,24 @@ Memory 和 Long Context（维度 2）经常被混淆，但本质不同。Long Co
 
 2026 年的 MemoryArena benchmark 为这个区分提供了定量证据：模型在被动回忆型 benchmark（如 LoCoMo）上得分 80%+，但在需要主动运用记忆的 agentic task 中骤降至 40-60%。"能想起来"和"能用起来"之间存在巨大鸿沟。
 
+## 与 Context Engineering 的关系
+
+Memory 容易和 Context Engineering（[topics/context-engineering.md](../topics/context-engineering.md)）混为一谈，但它们处理的是**两个互补的问题**，而非同一件事的两个名字。
+
+社区在 2025-2026 年收敛出一个相对稳定的比喻：**memory 是图书馆，context engineering 是图书管理员**。Memory engineering 决定"系统跨会话记什么、怎么写、怎么检索、何时遗忘"；context engineering 决定"这一轮把什么放进 context window"。两者的核心约束来自同一个事实——**LLM 只对 context window 内的 token 做推理**。这意味着任何 memory（除工作记忆外）都必须经过检索回到 context 才能影响输出。Memory 是供给侧，context 是消费侧；没有好的 context engineering，再好的 memory 也无法被有效使用；没有 memory，context engineering 只能在单 session 内做局部优化。
+
+**实际工程实践常常跨越这条边界**，这是混淆的来源。以下是常见手段的归位：
+
+- **滚动摘要、滑动窗口、观察遮蔽**：纯粹的 context engineering——只压缩当前会话内的 context，无跨会话持久化
+- **工具结果外写到外部存储 + 后续按需检索**：跨在两边——"外写"是 memory engineering（持久化决策），"按需取回"是 context engineering（消费决策）
+- **Subagent 隔离独立子任务**：纯粹的 context engineering——多 context window 协作，本质是分散负载而非积累记忆
+- **从对话中提取用户偏好并跨 session 注入 system prompt**：纯粹的 memory engineering——典型的 ChatGPT Memory 模式
+- **CLAUDE.md 这类项目级指令文件**：偏 memory engineering（持久化的项目知识），但加载策略是 context engineering（启动时前置加载 vs 按需检索）
+
+工程上一个反复出现的判别问句是："如果 agent 重启会话，这部分信息还在吗？" 答案是"在"则属于 memory，"不在"则属于 context engineering。
+
+**一个仍在演化的争议**：从 2025 末开始，社区出现 push back——长上下文（百万 token）加 KV cache 复用是否在让大量 memory 系统的工作"塌缩"回 context engineering？支持塌缩的一方认为，超长 context + 持久 KV cache 让"全量历史塞 context"重新可行；反对的一方（mem0、Letta 等记忆框架）坚持 context window 永远有限、检索的选择策略永远必要。这场争论目前没有结论，但它直接决定了 gen4 假设（memory 内化）的边界——若塌缩论成立，memory engineering 可能不会"内化"，而是被 context engineering 吸收。
+
 ## 核心概念与技术
 
 ### 记忆类型：认知科学对照
@@ -206,6 +224,12 @@ LinkedIn 的 Cognitive Memory Agent（CMA）是目前公开的最有影响力的
 
 - [Designing Memory for AI Agents: Inside LinkedIn's Cognitive Memory Agent (InfoQ)](https://www.infoq.com/news/2026/04/linkedin-cognitive-memory-agent/) — LinkedIn CMA 架构
 
+### Memory 与 Context Engineering 的关系
+
+- [Agent Memory vs. Context Engineering: What Persists Between Sessions and What Doesn't (Augment Code)](https://www.augmentcode.com/guides/agent-memory-vs-context-engineering) — library/librarian 框架的代表性表述
+- [Memory for AI Agents: A New Paradigm of Context Engineering (The New Stack)](https://thenewstack.io/memory-for-ai-agents-a-new-paradigm-of-context-engineering/) — 把 memory 论述为 context engineering 新范式的视角
+- [Memory Layer vs Context Window: What's the Difference? (Atlan)](https://atlan.com/know/memory-layer-vs-context-window/) — context window 和 memory layer 的边界界定
+
 ### 参数记忆 / 知识编辑
 
 - [ROME: Locating and Editing Factual Associations in GPT](https://rome.baulab.info/) — 单条知识精确编辑
@@ -213,5 +237,6 @@ LinkedIn 的 Cognitive Memory Agent（CMA）是目前公开的最有影响力的
 
 ## 更新日志
 
+- 2026-05-08：新增"与 Context Engineering 的关系"章节，明确 library/librarian 框架、常见工程手段的归位、长上下文是否让 memory 工程塌缩的争议
 - 2026-05-01：耦合章节增加维度 5 Instruction Following 交叉引用链接
 - 2026-04-27：初次创建。覆盖四类记忆分类、参数/非参数分野、记忆生命周期、五种机制家族、图记忆、记忆安全、当前技术格局（产品/框架/评测/企业）、演进路径、四层影响、六个维度耦合、五个关键不确定性
